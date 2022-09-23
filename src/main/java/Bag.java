@@ -33,8 +33,12 @@ public abstract class Bag {
     public Bag(String col, int cap){
         this.color = col;
         this.capacity = cap;
+        this.contents = new String[capacity];
     }
 
+    public String[] getContents() {
+        return contents;
+    }
 
     /*
      * TODO: Create a variety of 'getter' functions.
@@ -78,7 +82,7 @@ public abstract class Bag {
 
     public Boolean addItem(String str){
         if (this.capacity > this.numberOfContents){
-            this.contents[numberOfContents - 1] = str;
+            this.contents[numberOfContents] = str;
             numberOfContents += 1;
             return true;
         } else{
@@ -103,7 +107,8 @@ public abstract class Bag {
             return null;
         }else{
             String item = this.contents[this.numberOfContents - 1];
-            this.contents = Arrays.copyOf(this.contents, this.contents.length - 1);
+            this.contents[this.numberOfContents - 1] = null;
+            this.numberOfContents -= 1;
             return item;
         }
     }
@@ -118,8 +123,10 @@ public abstract class Bag {
      * @param n the amount to increase this Bag's capacity by
      */
     public void increaseCapacity(int n) {
+        String[] newArr = new String[this.capacity + n];
+        System.arraycopy(this.contents, 0, newArr, 0, this.contents.length);
+        this.contents = newArr;
         this.capacity += n;
-
     }
 
     /**
@@ -146,4 +153,5 @@ public abstract class Bag {
      * We recommend you look at HandBag.java first.
      */
     public abstract void enhance();
+
 }
